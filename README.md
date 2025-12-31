@@ -1,0 +1,2 @@
+# Computer-Vision-AI-Powered-Motion-Blur-Mitigation-for-High--Speed-Wagon-Condition-Monitoring
+Develop an AI-based solution that mitigates motion blur caused by high-speed movement and low light conditions, enhances image clarity for downstream tasks such as wagon counting or damage detection, and OCR for wagon numbers and provides both real-time monitoring and post operation analytics dashboards.
