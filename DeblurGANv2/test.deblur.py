@@ -4,10 +4,10 @@ from models.networks import get_generator
 
 # Load model
 model = get_generator('inception')
-model.load_weights('weights/fpn_inception.h5')
+model.load_weights('/DeblurGANv2/weights/fpn_inception.h5')
 
 # Read image
-img = cv2.imread('input.jpg')
+img = cv2.imread('10.jpg')
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 img = img / 255.0
 img = np.expand_dims(img, 0)

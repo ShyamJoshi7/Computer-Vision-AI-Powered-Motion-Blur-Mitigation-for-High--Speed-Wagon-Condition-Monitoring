@@ -21,7 +21,8 @@ from fire import Fire
 
 cv2.setNumThreads(0)
 
-
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+torch.set_num_threads(4)
 class Trainer:
     def __init__(self, config, train: DataLoader, val: DataLoader):
         self.config = config
@@ -161,13 +162,23 @@ class Trainer:
     def _init_params(self):
         self.criterionG, criterionD = get_loss(self.config['model'])
         self.netG, netD = get_nets(self.config['model'])
-        self.netG.cuda()
-        self.adv_trainer = self._get_adversarial_trainer(self.config['model']['d_name'], netD, criterionD)
+
+        self.netG = self.netG.to(device)
+
+        self.adv_trainer = self._get_adversarial_trainer(
+            self.config['model']['d_name'], netD, criterionD
+        )
+
         self.model = get_model(self.config['model'])
-        self.optimizer_G = self._get_optim(filter(lambda p: p.requires_grad, self.netG.parameters()))
+
+        self.optimizer_G = self._get_optim(
+            filter(lambda p: p.requires_grad, self.netG.parameters())
+        )
         self.optimizer_D = self._get_optim(self.adv_trainer.get_params())
+
         self.scheduler_G = self._get_scheduler(self.optimizer_G)
         self.scheduler_D = self._get_scheduler(self.optimizer_D)
+
 
 
 def main(config_path='config/config.yaml'):

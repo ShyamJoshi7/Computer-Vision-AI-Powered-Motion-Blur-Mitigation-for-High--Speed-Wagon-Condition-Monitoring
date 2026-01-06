@@ -1,73 +1,62 @@
----
 project: deblur_gan
-experiment_desc: fpn
-
-train:
-#  files_a: &FILES_A /datasets/my_dataset/**/*.jpg
-  #可以使用绝对路径
-  files_a: &FILES_A D:/deblur/goprol_large/**/*.png
-  files_b: *FILES_A
-#  files_a: &FILES_A ./dataset1/blur/*.png
-#  files_b: &FILES_B ./dataset1/sharp/*.png
-  size: &SIZE 256
-  crop: random
-  preload: &PRELOAD false
-  preload_size: &PRELOAD_SIZE 0
-  bounds: [0, .9]
-  scope: geometric
-  corrupt: &CORRUPT
-    - name: cutout
-      prob: 0.5
-      num_holes: 3
-      max_h_size: 25
-      max_w_size: 25
-    - name: jpeg
-      quality_lower: 70
-      quality_upper: 90
-    - name: motion_blur
-    - name: median_blur
-    - name: gamma
-    - name: rgb_shift
-    - name: hsv_shift
-    - name: sharpen
-
-val:
-  files_a: *FILES_A
-  files_b: *FILES_A
-#  files_a: &FILES_A
-#  files_b: &FILES_B
-  size: *SIZE
-  scope: geometric
-  crop: center
-  preload: *PRELOAD
-  preload_size: *PRELOAD_SIZE
-  bounds: [.9, 1]
-  corrupt: *CORRUPT
+experiment_desc: fpn_mobilenet_real
 
 phase: train
-warmup_num: 3
+warmup_num: 0
+
+# ===== TRAIN CONTROL =====
+batch_size: 1
+num_epochs: 30
+train_batches_per_epoch: 1151
+val_batches_per_epoch: 200
+image_size: [256, 256]
+
+# ===== DATA =====
+train:
+  files_a: E:/wagon/DeblurGANv2/dataset/blur/*.png
+  files_b: E:/wagon/DeblurGANv2/dataset/sharp/*.png
+  size: 256
+  crop: random
+  scope: geometric
+  corrupt:
+    - name: motion_blur
+    - name: jpeg
+    - name: sharpen
+  preload: false
+  preload_size: 0
+
+val:
+  files_a: E:/wagon/DeblurGANv2/dataset/blur/*.png
+  files_b: E:/wagon/DeblurGANv2/dataset/sharp/*.png
+  size: 256
+  crop: center
+  scope: geometric
+  corrupt: []
+  preload: false
+  preload_size: 0
+
+# ===== MODEL (NO COMPROMISE) =====
 model:
-  g_name: fpn_inception
-  blocks: 9
-  d_name: double_gan # may be no_gan, patch_gan, double_gan, multi_scale
+  g_name: fpn_mobilenet
+  d_name: patch_gan
   d_layers: 3
+
+  norm_layer: instance
+  dropout: false
+  blocks: 9
+  learn_residual: true
+
   content_loss: perceptual
   adv_lambda: 0.001
   disc_loss: wgan-gp
-  learn_residual: True
-  norm_layer: instance
-  dropout: True
 
-num_epochs: 10
-train_batches_per_epoch: 1000
-val_batches_per_epoch: 100
-batch_size: 1
-image_size: [256, 256]
-
+# ===== OPTIMIZER =====
 optimizer:
   name: adam
-  lr: 0.01
+  lr: 0.00005
+
+# ===== SCHEDULER =====
 scheduler:
   name: linear
-  start_epoch: 50
+  start_epoch: 10
   min_lr: 0.0000001

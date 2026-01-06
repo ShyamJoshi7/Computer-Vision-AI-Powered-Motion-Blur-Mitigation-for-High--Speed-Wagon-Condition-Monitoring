@@ -2,7 +2,9 @@ import numpy as np
 import torch.nn as nn
 from skimage.metrics import structural_similarity as SSIM
 from util.metrics import PSNR
+import torch
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class DeblurModel(nn.Module):
     def __init__(self):
@@ -12,7 +14,9 @@ class DeblurModel(nn.Module):
         img = data['a']
         inputs = img
         targets = data['b']
-        inputs, targets = inputs.cuda(), targets.cuda()
+        inputs = inputs.to(device)
+        targets = targets.to(device)
+
         return inputs, targets
 
     def tensor2im(self, image_tensor, imtype=np.uint8):

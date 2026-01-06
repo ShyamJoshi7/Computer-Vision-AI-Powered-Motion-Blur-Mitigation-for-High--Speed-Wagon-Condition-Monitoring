@@ -6,7 +6,7 @@ numpy
 opencv-python-headless
 joblib
 albumentations>=1.0.0
-scikit-image==0.18.1
+scikit-image
 tqdm
 glog
 tensorboardx

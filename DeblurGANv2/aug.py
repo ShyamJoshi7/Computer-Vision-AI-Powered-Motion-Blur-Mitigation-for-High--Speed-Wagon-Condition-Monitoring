@@ -41,7 +41,7 @@ def get_normalize():
 
 def _resolve_aug_fn(name):
     d = {
-        'cutout': albu.Cutout,
+        'cutout': albu.CoarseDropout,
         'rgb_shift': albu.RGBShift,
         'hsv_shift': albu.HueSaturationValue,
         'motion_blur': albu.MotionBlur,

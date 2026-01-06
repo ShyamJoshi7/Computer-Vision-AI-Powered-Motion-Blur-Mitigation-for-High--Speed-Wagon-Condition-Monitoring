@@ -1,0 +1,39 @@
+# ===== global =====
+venv/
+*/venv/
+.env
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# ===== datasets (ALL MODELS) =====
+dataset/
+datasets/
+data/
+*/dataset/
+*/datasets/
+*/data/
+
+# ===== outputs / runs =====
+runs/
+outputs/
+final_run/
+submit/
+*/runs/
+*/outputs/
+*/final_run/
+*/submit/
+
+# ===== images =====
+*.png
+*.jpg
+*.jpeg
+
+# ===== ML weights =====
+*.pt
+*.pth
+*.onnx
+*.h5
+
+# ===== notebooks =====
+*.ipynb
