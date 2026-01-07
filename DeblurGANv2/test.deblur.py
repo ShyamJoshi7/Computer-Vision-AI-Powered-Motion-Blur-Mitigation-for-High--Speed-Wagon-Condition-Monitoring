@@ -3,7 +3,7 @@ import numpy as np
 from models.networks import get_generator
 
 # Load model
-model = get_generator('inception')
+model = get_generator('fpn_inception')
 model.load_weights('/DeblurGANv2/weights/fpn_inception.h5')
 
 # Read image

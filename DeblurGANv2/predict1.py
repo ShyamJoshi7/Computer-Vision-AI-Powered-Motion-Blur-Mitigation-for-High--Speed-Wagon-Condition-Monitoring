@@ -92,7 +92,7 @@ def process_video(pairs, predictor, output_dir):
 
 def main(img_pattern: str,
          mask_pattern: Optional[str] = None,
-         weights_path='./fpn_mobilenet.h5',
+         weights_path='./best_fpn_mobilenet_real.h5',
          out_dir='submit/',
          side_by_side: bool = False,
          video: bool = False):
@@ -141,5 +141,5 @@ if __name__ == '__main__':
 #     img_path=get_files()
 #     for i in img_path:
 #         main(i)
-    main('image.png')
+    main('94.png')
 # Overwriting predict1.py

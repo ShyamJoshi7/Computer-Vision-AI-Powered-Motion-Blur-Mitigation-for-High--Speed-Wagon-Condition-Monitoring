@@ -82,7 +82,7 @@ def test(model, files):
 if __name__ == '__main__':
 	args = get_args()
 	with open('config/config.yaml') as cfg:
-		config = yaml.load(cfg)
+	config = yaml.load(cfg)
 	model = get_generator(config['model'])
 	model.load_state_dict(torch.load(args.weights_path)['model'])
 	model = model.cuda()
